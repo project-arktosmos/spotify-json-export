@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter({
 			pages: 'dist',
 			assets: 'dist',
-			fallback: 'index.html', // This is crucial for SPA mode
+			fallback: '404.html', // GitHub Pages serves 404.html for unknown routes
 			precompress: false,
 			strict: false // This tells the adapter to ignore dynamic routes
 		}),
