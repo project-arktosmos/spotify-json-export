@@ -27,8 +27,31 @@
 	$: selectedArtists = $exportState.artists.filter((a) => a.selected).length;
 	$: hasSelection = selectedPlaylists > 0 || selectedAlbums > 0 || selectedTracks > 0 || selectedArtists > 0;
 
+	// Export stats
+	$: exportStats = $exportState.totalStats;
+	$: exportedData = $exportState.exportedData;
+
 	function handleExport() {
 		spotifyExportService.startExport();
+	}
+
+	function handleDownload() {
+		if (!exportedData) return;
+
+		const json = JSON.stringify(exportedData, null, 2);
+		const blob = new Blob([json], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = `spotify-export-${new Date().toISOString().split('T')[0]}.json`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	}
+
+	function handleNewExport() {
+		spotifyExportService.backToSelection();
 	}
 
 	let hasLoadedData = false;
@@ -103,8 +126,44 @@
 		</div>
 
 		<!-- Bottom action bar -->
-		{#if isSelecting && !isComplete}
-			<div class="flex-shrink-0 mt-4 flex items-center justify-between bg-base-200 rounded-lg p-4">
+		<div class="flex-shrink-0 mt-4 flex items-center justify-between bg-base-200 rounded-lg p-4">
+			{#if isExporting}
+				<!-- Progress during export -->
+				<div class="flex-1">
+					<SpotifyProgressPanel />
+				</div>
+			{:else if isComplete}
+				<!-- Post-export info -->
+				<div class="flex gap-6 text-sm">
+					<div class="flex items-center gap-2">
+						<span class="text-success font-semibold">Export Complete</span>
+					</div>
+					<div class="flex gap-4 text-base-content/70">
+						<span>{exportedData?.playlists.length || 0} playlists</span>
+						<span>{exportedData?.albums.length || 0} albums</span>
+						<span>{exportedData?.tracks.length || 0} tracks</span>
+						<span>{exportedData?.artists.length || 0} artists</span>
+						<span class="text-base-content/50">|</span>
+						<span>{exportStats.tracksProcessed} total tracks processed</span>
+					</div>
+				</div>
+				<div class="flex gap-2">
+					<Button
+						label="New Export"
+						color={ThemeColors.Neutral}
+						size={ThemeSizes.Medium}
+						outline
+						on:click={handleNewExport}
+					/>
+					<Button
+						label="Download JSON"
+						color={ThemeColors.Success}
+						size={ThemeSizes.Medium}
+						on:click={handleDownload}
+					/>
+				</div>
+			{:else}
+				<!-- Selection mode -->
 				<div class="flex gap-4 text-sm text-base-content/70">
 					<span>{selectedPlaylists} playlists</span>
 					<span>{selectedAlbums} albums</span>
@@ -118,15 +177,8 @@
 					disabled={!hasSelection}
 					on:click={handleExport}
 				/>
-			</div>
-		{/if}
-
-		<!-- Progress row during export -->
-		{#if isExporting}
-			<div class="flex-shrink-0 mt-4">
-				<SpotifyProgressPanel />
-			</div>
-		{/if}
+			{/if}
+		</div>
 	{:else}
 		<div class="flex flex-col items-center justify-center flex-1 gap-6">
 			<div class="text-center">
