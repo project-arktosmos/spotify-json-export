@@ -57,18 +57,18 @@
 	}
 </script>
 
-<div class="flex flex-col gap-4 overflow-hidden h-full min-h-0">
-	<div class="flex items-center justify-between flex-shrink-0">
+<div class="flex h-full min-h-0 flex-col gap-4 overflow-hidden">
+	<div class="flex flex-shrink-0 items-center justify-between">
 		<h2 class="text-xl font-bold">Your Playlists</h2>
 	</div>
 
 	{#if isIdle}
 		<!-- Idle state - Start button -->
-		<div class="flex flex-col items-center justify-center py-12 text-center flex-1">
-			<p class="text-base-content/70 mb-4">
+		<div class="flex flex-1 flex-col items-center justify-center py-12 text-center">
+			<p class="mb-4 text-base-content/70">
 				Export your Spotify playlists, albums, and tracks to JSON.
 			</p>
-			<p class="text-base-content/50 text-sm mb-6">
+			<p class="mb-6 text-sm text-base-content/50">
 				Track data includes ISRC codes for cross-platform matching.
 			</p>
 			<Button
@@ -92,26 +92,26 @@
 		/>
 	{:else if isExporting}
 		<!-- Export in progress - show selected playlists -->
-		<div class="flex flex-col gap-4 flex-1 overflow-y-auto">
+		<div class="flex flex-1 flex-col gap-4 overflow-y-auto">
 			<div class="flex items-center gap-2">
-				<span class="loading loading-spinner loading-sm"></span>
+				<span class="loading loading-sm loading-spinner"></span>
 				<span class="text-sm text-base-content/70">Exporting playlists...</span>
 			</div>
 
 			<div class="flex-1 overflow-y-auto">
 				{#each $state.playlists.filter((p) => p.selected) as playlist (playlist.id)}
-					<div class="flex items-center gap-2 p-2 border-b border-base-300 last:border-b-0">
+					<div class="flex items-center gap-2 border-b border-base-300 p-2 last:border-b-0">
 						{#if playlist.coverImage}
 							<img
 								src={playlist.coverImage}
 								alt={playlist.name}
-								class="w-8 h-8 rounded flex-shrink-0 object-cover"
+								class="h-8 w-8 flex-shrink-0 rounded object-cover"
 							/>
 						{:else}
-							<div class="w-8 h-8 rounded flex-shrink-0 bg-base-300"></div>
+							<div class="h-8 w-8 flex-shrink-0 rounded bg-base-300"></div>
 						{/if}
-						<div class="flex-1 min-w-0">
-							<p class="text-xs font-medium truncate">{playlist.name}</p>
+						<div class="min-w-0 flex-1">
+							<p class="truncate text-xs font-medium">{playlist.name}</p>
 							<p class="text-xs text-base-content/50">{playlist.trackCount} tracks</p>
 						</div>
 					</div>
@@ -120,13 +120,13 @@
 		</div>
 	{:else if isComplete}
 		<!-- Complete -->
-		<div class="flex flex-col gap-4 flex-1">
+		<div class="flex flex-1 flex-col gap-4">
 			<div class="alert alert-success">
 				<span>Export complete!</span>
 			</div>
 
 			<div class="card bg-base-200 p-4">
-				<h3 class="font-semibold mb-3 text-sm">Summary</h3>
+				<h3 class="mb-3 text-sm font-semibold">Summary</h3>
 				<div class="space-y-2 text-sm">
 					<div class="flex justify-between">
 						<span class="text-base-content/70">Playlists exported:</span>
@@ -147,7 +147,7 @@
 				</div>
 			</div>
 
-			<div class="flex gap-2 flex-shrink-0">
+			<div class="flex flex-shrink-0 gap-2">
 				<Button
 					label="Export More"
 					color={ThemeColors.Neutral}
@@ -167,7 +167,7 @@
 		</div>
 	{:else if isError}
 		<!-- Error state -->
-		<div class="flex flex-col gap-4 flex-1">
+		<div class="flex flex-1 flex-col gap-4">
 			<div class="alert alert-error">
 				<span>Error: {$state.error}</span>
 			</div>

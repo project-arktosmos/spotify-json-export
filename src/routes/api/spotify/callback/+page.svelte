@@ -34,16 +34,16 @@
 	});
 </script>
 
-<div class="min-h-screen flex flex-col items-center justify-center gap-4 p-8">
+<div class="flex min-h-screen flex-col items-center justify-center gap-4 p-8">
 	{#if status === 'loading'}
-		<span class="loading loading-spinner loading-lg"></span>
+		<span class="loading loading-lg loading-spinner"></span>
 		<p class="text-base-content/70">Connecting to Spotify...</p>
 	{:else if status === 'success'}
-		<p class="text-success text-lg">Successfully connected!</p>
+		<p class="text-lg text-success">Successfully connected!</p>
 		<p class="text-base-content/70">Redirecting...</p>
 	{:else}
-		<p class="text-error text-lg">Authentication Failed</p>
+		<p class="text-lg text-error">Authentication Failed</p>
 		<p class="text-base-content/70">{errorMessage}</p>
-		<a href="/" class="btn btn-primary mt-4">Try Again</a>
+		<a href="/" class="btn mt-4 btn-primary">Try Again</a>
 	{/if}
 </div>

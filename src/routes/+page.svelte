@@ -25,7 +25,8 @@
 	$: selectedAlbums = $exportState.albums.filter((a) => a.selected).length;
 	$: selectedTracks = $exportState.tracks.filter((t) => t.selected).length;
 	$: selectedArtists = $exportState.artists.filter((a) => a.selected).length;
-	$: hasSelection = selectedPlaylists > 0 || selectedAlbums > 0 || selectedTracks > 0 || selectedArtists > 0;
+	$: hasSelection =
+		selectedPlaylists > 0 || selectedAlbums > 0 || selectedTracks > 0 || selectedArtists > 0;
 
 	// Export stats
 	$: exportStats = $exportState.totalStats;
@@ -102,8 +103,8 @@
 	}
 </script>
 
-<div class="flex flex-col h-screen p-6">
-	<div class="flex items-center justify-between mb-6">
+<div class="flex h-screen flex-col p-6">
+	<div class="mb-6 flex items-center justify-between">
 		<h1 class="text-3xl font-bold">Spotify Export</h1>
 		{#if isAuthenticated}
 			<Button
@@ -118,7 +119,7 @@
 
 	{#if isAuthenticated}
 		<!-- Selection View -->
-		<div class="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 overflow-hidden min-h-0">
+		<div class="grid min-h-0 flex-1 grid-cols-1 gap-6 overflow-hidden lg:grid-cols-4">
 			<SpotifyMigrationPanel />
 			<SpotifyAlbumsPanel />
 			<SpotifyTracksPanel />
@@ -126,7 +127,7 @@
 		</div>
 
 		<!-- Bottom action bar -->
-		<div class="flex-shrink-0 mt-4 flex items-center justify-between bg-base-200 rounded-lg p-4">
+		<div class="mt-4 flex flex-shrink-0 items-center justify-between rounded-lg bg-base-200 p-4">
 			{#if isExporting}
 				<!-- Progress during export -->
 				<div class="flex-1">
@@ -136,7 +137,7 @@
 				<!-- Post-export info -->
 				<div class="flex gap-6 text-sm">
 					<div class="flex items-center gap-2">
-						<span class="text-success font-semibold">Export Complete</span>
+						<span class="font-semibold text-success">Export Complete</span>
 					</div>
 					<div class="flex gap-4 text-base-content/70">
 						<span>{exportedData?.playlists.length || 0} playlists</span>
@@ -180,12 +181,12 @@
 			{/if}
 		</div>
 	{:else}
-		<div class="flex flex-col items-center justify-center flex-1 gap-6">
+		<div class="flex flex-1 flex-col items-center justify-center gap-6">
 			<div class="text-center">
-				<h2 class="text-2xl font-semibold mb-2">Connect to Spotify</h2>
-				<p class="text-base-content/70 max-w-md">
-					Export your Spotify playlists, albums, and tracks to JSON format.
-					Track data includes ISRC codes for cross-platform matching.
+				<h2 class="mb-2 text-2xl font-semibold">Connect to Spotify</h2>
+				<p class="max-w-md text-base-content/70">
+					Export your Spotify playlists, albums, and tracks to JSON format. Track data includes ISRC
+					codes for cross-platform matching.
 				</p>
 			</div>
 			<Button

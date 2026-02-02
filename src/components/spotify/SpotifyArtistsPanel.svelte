@@ -26,8 +26,8 @@
 	}
 </script>
 
-<div class="flex flex-col gap-4 overflow-hidden h-full min-h-0">
-	<div class="flex items-center justify-between flex-shrink-0">
+<div class="flex h-full min-h-0 flex-col gap-4 overflow-hidden">
+	<div class="flex flex-shrink-0 items-center justify-between">
 		<h2 class="text-xl font-bold">Your Artists</h2>
 	</div>
 

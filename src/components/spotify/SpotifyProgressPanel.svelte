@@ -10,17 +10,17 @@
 	}
 </script>
 
-<div class="flex flex-wrap items-center gap-6 w-full">
+<div class="flex w-full flex-wrap items-center gap-6">
 	<!-- Overall progress -->
-	<div class="flex-1 min-w-48">
-		<div class="flex items-center justify-between mb-2">
-			<h3 class="font-semibold text-sm">Overall Progress</h3>
+	<div class="min-w-48 flex-1">
+		<div class="mb-2 flex items-center justify-between">
+			<h3 class="text-sm font-semibold">Overall Progress</h3>
 			<span class="text-sm text-base-content/70">
 				{$state.playlistsExported} / {$state.totalPlaylistsToExport} playlists
 			</span>
 		</div>
 		<progress
-			class="progress progress-primary w-full"
+			class="progress w-full progress-primary"
 			value={$state.playlistsExported}
 			max={$state.totalPlaylistsToExport}
 		></progress>
@@ -28,17 +28,20 @@
 
 	<!-- Current playlist -->
 	{#if $state.currentPlaylist}
-		<div class="flex-1 min-w-48">
-			<div class="flex items-center gap-2 mb-2">
-				<span class="loading loading-spinner loading-sm"></span>
-				<h3 class="font-semibold text-sm truncate">{$state.currentPlaylist.playlistName}</h3>
+		<div class="min-w-48 flex-1">
+			<div class="mb-2 flex items-center gap-2">
+				<span class="loading loading-sm loading-spinner"></span>
+				<h3 class="truncate text-sm font-semibold">{$state.currentPlaylist.playlistName}</h3>
 			</div>
 			<div>
-				<div class="flex justify-between text-xs text-base-content/70 mb-1">
-					<span>Tracks: {$state.currentPlaylist.processedTracks} / {$state.currentPlaylist.totalTracks}</span>
+				<div class="mb-1 flex justify-between text-xs text-base-content/70">
+					<span
+						>Tracks: {$state.currentPlaylist.processedTracks} / {$state.currentPlaylist
+							.totalTracks}</span
+					>
 				</div>
 				<progress
-					class="progress progress-secondary w-full"
+					class="progress w-full progress-secondary"
 					value={$state.currentPlaylist.processedTracks}
 					max={$state.currentPlaylist.totalTracks || 1}
 				></progress>

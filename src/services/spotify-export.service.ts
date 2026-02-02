@@ -229,8 +229,12 @@ class SpotifyExportService {
 
 	get hasCachedData(): boolean {
 		const state = get(this.store);
-		return state.playlists.length > 0 || state.albums.length > 0 ||
-			state.tracks.length > 0 || state.artists.length > 0;
+		return (
+			state.playlists.length > 0 ||
+			state.albums.length > 0 ||
+			state.tracks.length > 0 ||
+			state.artists.length > 0
+		);
 	}
 
 	private saveToStorage(): void {
@@ -266,8 +270,12 @@ class SpotifyExportService {
 			const cached: CachedData = JSON.parse(stored);
 
 			// Check if we have any data
-			if (!cached.playlists?.length && !cached.albums?.length &&
-				!cached.tracks?.length && !cached.artists?.length) {
+			if (
+				!cached.playlists?.length &&
+				!cached.albums?.length &&
+				!cached.tracks?.length &&
+				!cached.artists?.length
+			) {
 				return;
 			}
 
@@ -442,9 +450,7 @@ class SpotifyExportService {
 	togglePlaylist(playlistId: string): void {
 		this.store.update((s) => ({
 			...s,
-			playlists: s.playlists.map((p) =>
-				p.id === playlistId ? { ...p, selected: !p.selected } : p
-			)
+			playlists: s.playlists.map((p) => (p.id === playlistId ? { ...p, selected: !p.selected } : p))
 		}));
 	}
 
