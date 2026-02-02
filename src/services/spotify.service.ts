@@ -27,7 +27,8 @@ const initialState: SpotifyAuth = {
 
 class SpotifyService extends ObjectServiceClass<SpotifyAuth> {
 	private clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID || '';
-	private redirectUri = 'http://127.0.0.1:1998/api/spotify/callback';
+	private redirectUri =
+		import.meta.env.VITE_SPOTIFY_REDIRECT_URI || 'http://127.0.0.1:1998/api/spotify/callback';
 	private baseUrl = 'https://api.spotify.com/v1';
 	private scopes = [
 		'user-read-private',
