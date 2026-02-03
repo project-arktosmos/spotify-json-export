@@ -27,9 +27,22 @@ const initialState: SpotifyAuth = {
 
 class SpotifyService extends ObjectServiceClass<SpotifyAuth> {
 	private clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID || '';
-	private redirectUri =
-		import.meta.env.VITE_SPOTIFY_REDIRECT_URI || 'http://127.0.0.1:1998/api/spotify/callback';
 	private baseUrl = 'https://api.spotify.com/v1';
+
+	private get redirectUri(): string {
+		// Use environment variable if explicitly set
+		if (import.meta.env.VITE_SPOTIFY_REDIRECT_URI) {
+			return import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+		}
+		// Dynamically construct from current origin + Vite base path
+		if (browser) {
+			// BASE_URL includes trailing slash (e.g., "/spotify-export/")
+			const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+			return `${window.location.origin}${basePath}/api/spotify/callback`;
+		}
+		// Fallback for SSR
+		return 'http://127.0.0.1:1998/api/spotify/callback';
+	}
 	private scopes = [
 		'user-read-private',
 		'user-read-email',

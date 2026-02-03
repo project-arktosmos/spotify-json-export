@@ -6,6 +6,10 @@
 	let status: 'loading' | 'success' | 'error' = 'loading';
 	let errorMessage = '';
 
+	function goHome() {
+		goto('/');
+	}
+
 	onMount(async () => {
 		const params = new URLSearchParams(window.location.search);
 		const code = params.get('code');
@@ -44,6 +48,6 @@
 	{:else}
 		<p class="text-lg text-error">Authentication Failed</p>
 		<p class="text-base-content/70">{errorMessage}</p>
-		<a href="/" class="btn mt-4 btn-primary">Try Again</a>
+		<button class="btn mt-4 btn-primary" onclick={goHome}>Try Again</button>
 	{/if}
 </div>
